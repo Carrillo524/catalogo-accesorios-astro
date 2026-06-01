@@ -1,0 +1,82 @@
+---
+import Tarjeta from '../components/Tarjeta.astro';
+// Importamos la función para traer las colecciones
+import { getCollection } from 'astro:content';
+
+// Así de fácil Astro lee todos los archivos .md de la carpeta productos
+const productos = await getCollection('productos');
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Catálogo de Accesorios</title>
+  </head>
+  <body>
+    <header class="encabezado">
+      <h1>Nuestra Colección de Moños</h1>
+      <a href="https://instagram.com/tu_perfil" target="_blank" class="instagram-link">Síguenos en Instagram ✨</a>
+    </header>
+
+    <main class="contenedor">
+      <div class="grid-productos">
+        {productos.map((producto) => (
+          <Tarjeta 
+            slug={producto.id} 
+            nombre={producto.data.nombre}
+            descripcionBreve={producto.data.descripcionBreve}
+            precio={producto.data.precio}
+            imagen={producto.data.imagen}
+          />
+        ))}
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  /* Colores globales del sitio */
+  body {
+    margin: 0;
+    background-color: #faf7f2; /* Beige muy clarito y elegante */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .encabezado {
+    text-align: center;
+    padding: 3rem 1rem;
+    background-color: #fce4ec; /* Rosa pastel para el banner superior */
+    color: #5c4b51;
+  }
+
+  h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2.5rem;
+  }
+
+  .instagram-link {
+    color: #d17a8e;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .instagram-link:hover {
+    color: #a8586c;
+  }
+
+  .contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem; /* Padding a los lados para que no pegue en el celular */
+  }
+
+  /* Aquí ocurre la magia responsiva (Adaptable a PC y Celular) */
+  .grid-productos {
+    display: grid;
+    /* En celulares muestra 1 columna, y a medida que crece la pantalla añade más automáticamente */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
+  }
+</style>

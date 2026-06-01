@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "nombre": "Producto Ejemplo 1",
+    "descripcion": "Esta es la descripción corta del producto uno.",
+    "precio": "$50.000",
+    "imagen": "/imagenes/foto1.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Producto Ejemplo 2",
+    "descripcion": "Esta es la descripción corta del producto dos.",
+    "precio": "$120.000",
+    "imagen": "/imagenes/foto2.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Producto Ejemplo 3",
+    "descripcion": "Esta es la descripción corta del producto tres.",
+    "precio": "$35.000",
+    "imagen": "/imagenes/foto3.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Producto Ejemplo 4",
+    "descripcion": "Esta es la descripción corta del producto cuatro.",
+    "precio": "$80.000",
+    "imagen": "/imagenes/foto4.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Producto Ejemplo 5",
+    "descripcion": "Esta es la descripción corta del producto cinco.",
+    "precio": "$45.000",
+    "imagen": "/imagenes/foto5.jpg"
+  },
+  {
+    "id": 6,
+    "nombre": "Producto Ejemplo 6",
+    "descripcion": "Esta es la descripción corta del producto seis.",
+    "precio": "$95.000",
+    "imagen": "/imagenes/foto6.jpg"
+  },
+  {
+    "id": 7,
+    "nombre": "Producto Ejemplo 7",
+    "descripcion": "Esta es la descripción corta del producto siete.",
+    "precio": "$60.000",
+    "imagen": "/imagenes/foto7.jpg"
+  },
+  {
+    "id": 8,
+    "nombre": "Producto Ejemplo 8",
+    "descripcion": "Esta es la descripción corta del producto ocho.",
+    "precio": "$110.000",
+    "imagen": "/imagenes/foto8.png"
+  },
+  {
+    "id": 9,
+    "nombre": "Producto Ejemplo 9",
+    "descripcion": "Esta es la descripción corta del producto nueve.",
+    "precio": "$25.000",
+    "imagen": "/imagenes/foto9.jpg"
+  },
+  {
+    "id": 10,
+    "nombre": "Producto Ejemplo 10",
+    "descripcion": "Esta es la descripción corta del producto diez.",
+    "precio": "$70.000",
+    "imagen": "/imagenes/foto10.jpg"
+  }
+]

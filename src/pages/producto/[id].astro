@@ -1,0 +1,229 @@
+---
+import { getCollection, render } from 'astro:content';
+
+// 1. getStaticPaths le dice a Astro exactamente qué páginas debe generar en el build
+export async function getStaticPaths() {
+  const productos = await getCollection('productos');
+  return productos.map(producto => ({
+    params: { id: producto.id }, // La URL será /producto/mono-prueba
+    props: { producto },        // Pasamos todo el producto como propiedad
+  }));
+}
+
+// 2. Recuperamos el producto desde las props (añadimos 'galeria')
+const { producto } = Astro.props;
+const { nombre, precio, imagen, galeria, estado, referencia } = producto.data;
+
+// 3. Renderizamos el contenido interno del Markdown (la descripción larga)
+const { Content } = await render(producto);
+
+// 4. Configuración de WhatsApp (Aquí está la API dinámica)
+const TELEFONO_CLIENTE = "573000000000"; // TODO: Reemplazar con el número del cliente (sin el +)
+const textoReferencia = referencia ? ` (Ref: ${referencia})` : "";
+const mensajeWhatsApp = `Hola! Me interesa el accesorio "${nombre}"${textoReferencia}. ¿Está disponible?`;
+const enlaceWhatsApp = `https://wa.me/${TELEFONO_CLIENTE}?text=${encodeURIComponent(mensajeWhatsApp)}`;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{nombre} | Catálogo de Accesorios</title>
+  </head>
+  <body>
+    <div class="contenedor-navegacion">
+      <a href="/" class="btn-volver">← Volver al catálogo</a>
+    </div>
+
+    <main class="detalle-producto">
+      <section class="seccion-imagen">
+        <img src={imagen} alt={`Foto de ${nombre}`} class="imagen-principal" id="imagenActiva" />
+        
+        {galeria && galeria.length > 0 && (
+          <div class="galeria-miniaturas">
+            <img src={imagen} class="miniatura activa" onclick="cambiarImagen(this.src, this)" alt="Miniatura principal" />
+            
+            {galeria.map((img) => (
+              <img src={img} class="miniatura" onclick="cambiarImagen(this.src, this)" alt="Miniatura detalle" />
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section class="seccion-info">
+        <span class={`etiqueta-estado ${estado}`}>{estado.toUpperCase()}</span>
+        <h1>{nombre}</h1>
+        <p class="precio">${precio.toLocaleString('es-CO')} COP</p>
+        
+        <div class="descripcion-completa">
+          <Content />
+        </div>
+
+        {estado === 'disponible' ? (
+          <a href={enlaceWhatsApp} target="_blank" class="btn-comprar">
+            Pedir por WhatsApp 💬
+          </a>
+        ) : (
+          <button class="btn-comprar agotado" disabled>Producto Agotado</button>
+        )}
+      </section>
+    </main>
+    <script is:inline>
+      function cambiarImagen(nuevaSrc, elementoClickeado) {
+        // Cambia la imagen grande
+        document.getElementById('imagenActiva').src = nuevaSrc;
+        
+        // Quita la clase 'activa' de todas las miniaturas
+        document.querySelectorAll('.miniatura').forEach(img => img.classList.remove('activa'));
+        
+        // Se la pone solo a la que tocaste
+        elementoClickeado.classList.add('activa');
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+.galeria-miniaturas {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    overflow-x: auto; /* Permite deslizar si hay muchas fotos en celular */
+    padding-bottom: 0.5rem;
+  }
+
+  .miniatura {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .miniatura:hover, .miniatura.activa {
+    border-color: #d17a8e; /* Borde rosa cuando está seleccionada */
+  }
+  body {
+    margin: 0;
+    background-color: #faf7f2; /* Mismo beige elegante */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #5c4b51;
+  }
+
+  .contenedor-navegacion {
+    max-width: 1000px;
+    margin: 2rem auto 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .btn-volver {
+    color: #d17a8e;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  /* Diseño responsivo con Flexbox */
+  .detalle-producto {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column; /* Por defecto en formato lista (para celulares) */
+    gap: 2.5rem;
+    background-color: #fffafb;
+    border-radius: 16px;
+    border: 1px solid #f0e4e6;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  }
+
+  /* Cuando la pantalla es de PC (mínimo 768px), se divide en dos columnas */
+  @media (min-width: 768px) {
+    .detalle-producto {
+      flex-direction: row;
+      padding: 3rem;
+    }
+    .seccion-imagen, .seccion-info {
+      flex: 1;
+    }
+  }
+
+  .imagen-principal {
+    width: 100%;
+    max-height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+
+  .seccion-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .etiqueta-estado {
+    align-self: flex-start;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .etiqueta-estado.disponible {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .etiqueta-estado.agotado {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0 0 1rem 0;
+    color: #4a3b40;
+  }
+
+  .precio {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #d17a8e;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .descripcion-completa {
+    font-size: 1.2rem; /* Letra grande y legible como pidió el cliente */
+    line-height: 1.6;
+    color: #7a6b70;
+    margin-bottom: 2rem;
+  }
+
+  .btn-comprar {
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8c8d4; /* Rosa pastel */
+    color: #5c4b51;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+    border: none;
+  }
+
+  .btn-comprar:not(.agotado):hover {
+    background-color: #f0b4c3;
+    transform: translateY(-2px);
+  }
+
+  .btn-comprar.agotado {
+    background-color: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+  }
+</style>

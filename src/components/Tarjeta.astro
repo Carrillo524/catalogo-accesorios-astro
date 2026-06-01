@@ -1,0 +1,101 @@
+---
+export interface Props {
+  nombre: string;
+  descripcionBreve: string;
+  precio: number;
+  imagen: string;
+  slug: string; // El slug es el nombre del archivo (ej: mono-prueba), lo usaremos para el enlace
+}
+
+const { nombre, descripcionBreve, precio, imagen, slug } = Astro.props;
+---
+
+<a href={`/producto/${slug}`} class="tarjeta-enlace">
+  <article class="tarjeta">
+    <img src={imagen} alt={`Imagen de ${nombre}`} class="tarjeta-img" />
+    <div class="tarjeta-contenido">
+      <h3>{nombre}</h3>
+      <p>{descripcionBreve}</p>
+      
+      <span class="precio">${precio.toLocaleString('es-CO')}</span>
+      
+      <button class="btn-ver">Ver detalles</button>
+    </div>
+  </article>
+</a>
+
+<style>
+  .tarjeta-enlace {
+    text-decoration: none; /* Quitamos el subrayado del enlace */
+    color: inherit;
+  }
+
+  .tarjeta {
+    /* Colores pastel: un fondo casi blanco con un toque cálido */
+    background-color: #fffafb; 
+    border: 1px solid #f0e4e6;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(220, 180, 190, 0.2);
+  }
+
+  .tarjeta-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background-color: #fce4ec; /* Fondo rosa clarito mientras carga la imagen */
+  }
+
+  .tarjeta-contenido {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    color: #5c4b51; /* Un tono oscuro pero suave, no negro puro */
+  }
+
+  p {
+    font-size: 1rem;
+    color: #7a6b70;
+    margin-bottom: 1rem;
+    flex-grow: 1; /* Empuja el precio y botón hacia abajo */
+  }
+
+  .precio {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #d17a8e; /* Rosa un poco más fuerte para destacar */
+    margin-bottom: 1rem;
+  }
+
+  .btn-ver {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #f8c8d4; /* Rosa pastel */
+    color: #5c4b51;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .btn-ver:hover {
+    background-color: #f0b4c3; /* Rosa un poco más oscuro al pasar el mouse */
+  }
+</style>
