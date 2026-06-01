@@ -1,16 +1,14 @@
 ---
-referencia: "REF-001"
-nombre: "Moño Rosa Pastel"
-descripcionBreve: "Hermoso moño de cinta satinada ideal para cualquier ocasión."
-precio: 15000
-imagen: "https://via.placeholder.com/400x400.png?text=Principal"
+referencia: Moño simple
+nombre: Moño simple
+descripcionBreve: "Este 🎀 lo encuentras Con pinza o con moña. Material: Cuerina"
+precio: 8000
+imagen: /imagenes/foto1.jpg
 galeria:
-  - "https://via.placeholder.com/400x400.png?text=Detalle+1"
-  - "https://via.placeholder.com/400x400.png?text=Detalle+2"
-  - "https://via.placeholder.com/400x400.png?text=Detalle+3"
-estado: "disponible"
+  - /imagenes/foto2.jpg
+  - /imagenes/foto3.jpg
+estado: disponible
 ---
-
-Aquí va la descripción larga del producto. Este moño está elaborado a mano con materiales de alta calidad. Sus dimensiones son perfectas para resaltar en el cabello sin ser pesado.
+Este moño está elaborado a mano con materiales de alta calidad. Sus dimensiones son perfectas para resaltar en el cabello sin ser pesado.
 
 Ideal para regalos, eventos especiales o el uso diario. ¡Luce increíble con nuestros accesorios!
