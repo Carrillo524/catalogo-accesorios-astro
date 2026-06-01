@@ -18,7 +18,7 @@ const { nombre, precio, imagen, galeria, estado, referencia } = producto.data;
 const { Content } = await render(producto);
 
 // 4. Configuración de WhatsApp (Aquí está la API dinámica)
-const TELEFONO_CLIENTE = "573000000000"; // TODO: Reemplazar con el número del cliente (sin el +)
+const TELEFONO_CLIENTE = "573124666465"; // TODO: Reemplazar con el número del cliente (sin el +)
 const textoReferencia = referencia ? ` (Ref: ${referencia})` : "";
 const mensajeWhatsApp = `Hola! Me interesa el accesorio "${nombre}"${textoReferencia}. ¿Está disponible?`;
 const enlaceWhatsApp = `https://wa.me/${TELEFONO_CLIENTE}?text=${encodeURIComponent(mensajeWhatsApp)}`;
